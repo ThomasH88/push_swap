@@ -6,111 +6,81 @@
 /*   By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/03 11:07:47 by tholzheu          #+#    #+#             */
-/*   Updated: 2018/11/03 20:57:24 by tholzheu         ###   ########.fr       */
+/*   Updated: 2018/11/15 17:45:46 by tholzheu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int		error_check(char **argv)
+static int		flags_parsing(char **arr, int *debug, int door)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	while (argv[++i])
+	*debug = 0;
+	while (arr[i])
 	{
-		j = 1;
-		if (ft_isnum(argv[i]) == 0)
-			return (-1);
-		if (argv[i][0] != '0' && ft_atoi(argv[i]) == 0)
-			return (-1);
-		while (argv[j])
-		{
-			if (i != j && ft_strcmp(argv[i], argv[j]) == 0)
-				return (-1);
-			j++;
-		}
+		if (ft_strequ(arr[i], "-v") && ++i)
+			*debug = 2;
+		else if (ft_strequ(arr[i], "-c") && ++i)
+			*debug = 3;
+		else
+			break ;
 	}
-	return (0);
-}
-
-static int		is_sorted(t_list **lst_a, t_list **lst_b)
-{
-	t_node	*cur;
-
-	if (lst_a == NULL || *lst_a == NULL)
-		return (0);
-	cur = (*lst_a)->head;
-	while (cur && cur->next)
+	if (error_check(&arr[i]) == -1)
 	{
-		if (cur->nb > cur->next->nb)
-			return (0);
-		cur = cur->next;
-	}
-	if (lst_b && *lst_b == NULL)
-		return (1);
-	return (0);
-}
-
-static int		execute_instructions(char *inst, t_list **lst_a, t_list **lst_b)
-{
-	if (ft_strcmp(inst, "sa") == 0)
-		op_swap(lst_a);
-	else if (ft_strcmp(inst, "sb") == 0)
-		op_swap(lst_b);
-	else if (ft_strcmp(inst, "ss") == 0)
-		op_swap_both(lst_a, lst_b);
-	else if (ft_strcmp(inst, "pa") == 0)
-		op_push(lst_a, lst_b);
-	else if (ft_strcmp(inst, "pb") == 0)
-		op_push(lst_b, lst_a);
-	else if (ft_strcmp(inst, "ra") == 0)
-		op_rotate(lst_a);
-	else if (ft_strcmp(inst, "rb") == 0)
-		op_rotate(lst_b);
-	else if (ft_strcmp(inst, "rr") == 0)
-		op_rotate_both(lst_a, lst_b);
-	else if (ft_strcmp(inst, "rra") == 0)
-		op_rev_rotate(lst_a);
-	else if (ft_strcmp(inst, "rrb") == 0)
-		op_rev_rotate(lst_b);
-	else if (ft_strcmp(inst, "rrr") == 0)
-		op_rev_rotate_both(lst_a, lst_b);
-	else
+		if (door)
+			ft_arrdel(&arr);
 		return (-1);
-	return (0);
+	}
+	return (i);
 }
 
-int				main(int argc, char **argv)
+static int		run_checker(char **arr, int door)
 {
 	t_list	*lst_a;
 	t_list	*lst_b;
-	int		i;
 	char	*line;
+	int		debug;
+	int		i;
 
-	if (argc == 1)
-		return (0);
-	if (error_check(argv) == -1)
-		return (write(2, "Error\n", 6));
 	lst_a = NULL;
 	lst_b = NULL;
-	i = 0;
-	while (argv[++i])
-		lstadd_back(&lst_a, ft_atoi(argv[i]));
+	if ((i = flags_parsing(arr, &debug, door)) == -1)
+		return (-1);
+	while (arr[i])
+		lstadd_back(&lst_a, ft_atoi(arr[i++]));
 	while (get_next_line(0, &line) > 0)
 	{
-		if (execute_instructions(line, &lst_a, &lst_b) == -1)
+		if (execute_instructions(line, &lst_a, &lst_b, debug) == -1)
 			return (write(2, "Error\n", 6));
-		printf("printing list a...\n");
-		lstprint(&lst_a);
-		printf("printing list b...\n");
-		lstprint(&lst_b);
 		ft_strdel(&line);
 	}
+	if (door)
+		ft_arrdel(&arr);
 	if (is_sorted(&lst_a, &lst_b))
 		write(1, "OK\n", 3);
 	else
 		write(1, "KO\n", 3);
+	return (1);
+}
+
+int				main(int argc, char **argv)
+{
+	char	**arr;
+
+	if (argc == 1)
+		return (0);
+	if (argc == 2)
+	{
+		arr = ft_strsplit(argv[1], ' ');
+		if (run_checker(arr, 1) == -1)
+			return (write(2, "Error\n", 6));
+	}
+	else
+	{
+		if (run_checker(argv + 1, 0) == -1)
+			return (write(2, "Error\n", 6));
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/03 15:30:26 by tholzheu          #+#    #+#             */
-/*   Updated: 2018/11/03 18:42:10 by tholzheu         ###   ########.fr       */
+/*   Updated: 2018/11/04 10:28:06 by tholzheu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void			lstdel_elem_front(t_list **lst)
 	free((*lst)->head);
 	(*lst)->head = NULL;
 	(*lst)->head = tmp;
+	set_index(lst);
 	if ((*lst)->size == 1)
 	{
 		free(*lst);

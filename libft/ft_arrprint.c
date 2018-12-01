@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_arrprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 19:39:28 by tholzheu          #+#    #+#             */
-/*   Updated: 2018/11/15 16:01:06 by tholzheu         ###   ########.fr       */
+/*   Created: 2018/11/15 16:11:33 by tholzheu          #+#    #+#             */
+/*   Updated: 2018/11/15 16:15:55 by tholzheu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t		ft_strlen(const char *s)
+void	ft_arrprint(char **arr)
 {
-	size_t	i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+	while (arr && *arr)
+	{
+		ft_putendl(*arr);
+		arr++;
+	}
 }

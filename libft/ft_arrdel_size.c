@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_arrdel_size.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 19:39:28 by tholzheu          #+#    #+#             */
-/*   Updated: 2018/11/15 16:01:06 by tholzheu         ###   ########.fr       */
+/*   Created: 2018/11/15 19:36:34 by tholzheu          #+#    #+#             */
+/*   Updated: 2018/11/15 19:46:38 by tholzheu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t		ft_strlen(const char *s)
+void		ft_arrdel_size(char ***arr, size_t size)
 {
-	size_t	i;
+	char	**del;
 
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+	if (!arr)
+		return ;
+	del = *arr;
+	if (*arr)
+	{
+		while (size--)
+		{
+			ft_strdel(del);
+			del++;
+		}
+	}
+	free(*arr);
+	*arr = NULL;
 }

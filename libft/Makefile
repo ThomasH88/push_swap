@@ -6,7 +6,7 @@
 #    By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/10 16:42:11 by tholzheu          #+#    #+#              #
-#    Updated: 2018/11/03 14:28:08 by tholzheu         ###   ########.fr        #
+#    Updated: 2018/11/15 19:41:08 by tholzheu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,11 @@ SRCS = ft_memset.c \
 	   get_next_line.c \
 	   count_words.c \
 	   ft_isnum.c \
+	   ft_abs.c \
+	   ft_arrdel.c \
+	   ft_arrdel_size.c \
+	   ft_arrlen.c \
+	   ft_arrprint.c \
 
 SRCO = $(SRCS:.c=.o)
 

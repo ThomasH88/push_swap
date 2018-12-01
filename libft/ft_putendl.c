@@ -6,7 +6,7 @@
 /*   By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 16:28:12 by tholzheu          #+#    #+#             */
-/*   Updated: 2018/10/08 16:44:23 by tholzheu         ###   ########.fr       */
+/*   Updated: 2018/11/15 16:13:18 by tholzheu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ void	ft_putendl(char const *s)
 {
 	if (!s || !*s)
 		return ;
-	while (*s)
-	{
-		ft_putchar(*s);
-		s++;
-	}
+	write(1, s, ft_strlen(s));
 	ft_putchar('\n');
 }

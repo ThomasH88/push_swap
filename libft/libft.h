@@ -6,7 +6,7 @@
 /*   By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 19:35:19 by tholzheu          #+#    #+#             */
-/*   Updated: 2018/11/03 14:24:17 by tholzheu         ###   ########.fr       */
+/*   Updated: 2018/11/15 19:40:50 by tholzheu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,10 @@ int					size_of_nb(int nb);
 void				itoa_base(unsigned long nb, unsigned long base);
 int					get_next_line(const int fd, char **line);
 int					ft_isnum(const char *s);
+int					ft_abs(int nb);
+void				ft_arrdel(char ***arr);
+void				ft_arrdel_size(char ***arr, size_t size);
+size_t				ft_arrlen(char **arr);
+void				ft_arrprint(char **arr);
 
 #endif
