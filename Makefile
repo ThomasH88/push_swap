@@ -6,47 +6,72 @@
 #    By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/10 16:42:11 by tholzheu          #+#    #+#              #
-#    Updated: 2018/11/15 14:44:29 by tholzheu         ###   ########.fr        #
+#    Updated: 2019/06/15 15:06:04 by tholzheu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+GREEN = \033[0;32m
+RED = \033[1;32m
+YELLOW = \033[1;33m
+ORANGE = \033[1;31m
+BLUE = \033[1;36m
+GREY = \033[1;30m
+NC = \033[0m
 
 NAME1 = checker
 
 NAME2 = push_swap
 
-HEADER = push_swap.h
+IDIR = includes
+
+HEADER = $(addprefix $(IDIR)/, push_swap.h)
+
+CC = gcc
 
 LIB1 = libft/libft.a
 
 LIB2 = ft_printf/libftprintf.a
 
-FLAGS = -Wall -Werror -Wextra -o
+FLAGS = -Wall -Werror -Wextra -I$(IDIR)
 
-SRC1 = checker.c
+ODIR = objs
 
-SRC2 = push_swap.c
+SDIR = srcs
 
-SRCS = list.c \
-	   lstdel.c \
-	   lstextras.c \
-	   side_funct.c \
-	   offset.c \
-	   instructions_a.c \
-	   instructions_b.c \
-	   multi_operations.c \
-	   print_list.c \
-	   resolve.c \
-	   resolve_small.c \
+OBJ1 = $(addprefix $(ODIR)/, checker.o)
 
-SRCO = $(SRCS:.c=.o)
+OBJ2 = $(addprefix $(ODIR)/, push_swap.o)
 
-$(NAME1):
+OBJS = $(addprefix $(ODIR)/, list.o \
+	   lstdel.o \
+	   lstextras.o \
+	   side_funct.o \
+	   offset.o \
+	   instructions_a.o \
+	   instructions_b.o \
+	   multi_operations.o \
+	   print_list.o \
+	   resolve.o \
+	   resolve_small.o)
+
+
+$(ODIR)/%.o: $(SDIR)/%.c $(HEADER)
+	mkdir -p objs
+	$(CC) -c -o $@ $< $(FLAGS)
+
+$(NAME1): $(OBJ1) $(OBJS) $(LIB1) $(LIB2)
+	$(CC) -o $@ $^ $(FLAGS)
+
+$(NAME2): $(OBJ2) $(OBJS) $(LIB1) $(LIB2)
+	$(CC) -o $@ $^ $(FLAGS)
+
+$(LIB1):
 	make -C libft/
-	make -C ft_printf/
-	gcc $(FLAGS) $(NAME1) $(SRCS) $(SRC1) $(LIB1) $(LIB2) -I=$(HEADER)
-	gcc $(FLAGS) $(NAME2) $(SRCS) $(SRC2) $(LIB1) $(LIB2) -I=$(HEADER)
 
-all: $(NAME1)
+$(LIB2):
+	make -C ft_printf/
+
+all: $(NAME1) $(NAME2)
 
 san: fclean
 	make -C libft/
@@ -57,7 +82,7 @@ san: fclean
 clean:
 	make clean -C libft/
 	make clean -C ft_printf/
-	/bin/rm -f $(SRCO) checker.o push_swap.o
+	/bin/rm -rf objs $(SRCO) checker.o push_swap.o
 
 fclean: clean
 	make fclean -C libft/
