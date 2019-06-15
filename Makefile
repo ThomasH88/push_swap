@@ -6,23 +6,15 @@
 #    By: tholzheu <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/10 16:42:11 by tholzheu          #+#    #+#              #
-#    Updated: 2019/06/15 15:06:04 by tholzheu         ###   ########.fr        #
+#    Updated: 2019/06/15 16:06:04 by tholzheu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-GREEN = \033[0;32m
-RED = \033[1;32m
-YELLOW = \033[1;33m
-ORANGE = \033[1;31m
-BLUE = \033[1;36m
-GREY = \033[1;30m
-NC = \033[0m
 
 NAME1 = checker
 
 NAME2 = push_swap
 
-IDIR = includes
+IDIR = include
 
 HEADER = $(addprefix $(IDIR)/, push_swap.h)
 
@@ -34,9 +26,9 @@ LIB2 = ft_printf/libftprintf.a
 
 FLAGS = -Wall -Werror -Wextra -I$(IDIR)
 
-ODIR = objs
+ODIR = obj
 
-SDIR = srcs
+SDIR = src
 
 OBJ1 = $(addprefix $(ODIR)/, checker.o)
 
@@ -56,8 +48,10 @@ OBJS = $(addprefix $(ODIR)/, list.o \
 
 
 $(ODIR)/%.o: $(SDIR)/%.c $(HEADER)
-	mkdir -p objs
+	mkdir -p obj
 	$(CC) -c -o $@ $< $(FLAGS)
+
+all: $(NAME1) $(NAME2)
 
 $(NAME1): $(OBJ1) $(OBJS) $(LIB1) $(LIB2)
 	$(CC) -o $@ $^ $(FLAGS)
@@ -71,18 +65,10 @@ $(LIB1):
 $(LIB2):
 	make -C ft_printf/
 
-all: $(NAME1) $(NAME2)
-
-san: fclean
-	make -C libft/
-	make -C ft_printf/
-	gcc -fsanitize=address -g $(FLAGS) $(NAME1) $(SRCS) $(SRC1) $(LIB1) $(LIB2) -I=$(HEADER)
-	gcc -fsanitize=address -g $(FLAGS) $(NAME2) $(SRCS) $(SRC2) $(LIB1) $(LIB2) -I=$(HEADER)
-
 clean:
 	make clean -C libft/
 	make clean -C ft_printf/
-	/bin/rm -rf objs $(SRCO) checker.o push_swap.o
+	/bin/rm -rf obj $(SRCO) checker.o push_swap.o
 
 fclean: clean
 	make fclean -C libft/
@@ -91,9 +77,4 @@ fclean: clean
 
 re: fclean all
 
-git: fclean
-	git add .
-	git reset HEAD *main*
-	git status
-	git commit -m "update"
-	git push
+.PHONY: all clean fclean re
